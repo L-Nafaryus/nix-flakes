@@ -10,17 +10,14 @@
         flake-utils.lib.eachDefaultSystem (system:
             let
                 pkgs = import nixpkgs { inherit system; };
-                dearpygui = pkgs.callPackage ./default.nix {};
             in rec {
-                defaultPackage = dearpygui;
+                defaultPackage = pkgs.callPackage ./default.nix {};
+
                 defaultApp = flake-utils.lib.mkApp {
                     drv = defaultPackage;
                 };
-                devShell = with pkgs; mkShell {
-                    buildInputs = [
-                        dearpygui
-                    ];
-                };
+
+                devShells.default = import ./shell.nix { inherit pkgs; };
             }
         );
 }
