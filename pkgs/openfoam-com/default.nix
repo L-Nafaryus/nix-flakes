@@ -20,7 +20,7 @@ stdenv.mkDerivation rec {
         platforms = platforms.linux;
         maintainers = [];
         inherit version;
-        broken = false;
+        broken = true;
     };
 
     nativeBuildInputs = [ bash m4 flex bison ];

@@ -5,5 +5,7 @@
 rec {
     netgen = pkgs.callPackage ./pkgs/netgen {};
 
-    # openfoam-org = pkgs.callPackage ./pkgs/openfoam-org {};
+    openfoam-com = pkgs.callPackage ./pkgs/openfoam-com {};
+
+    dearpygui = pkgs.callPackage ./pkgs/dearpygui {};
 }

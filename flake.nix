@@ -1,5 +1,5 @@
 {
-    description = "Nix Nyx channel, personal NUR repository";
+    description = "My Nix package repository with flakes";
 
     inputs = {
         nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
