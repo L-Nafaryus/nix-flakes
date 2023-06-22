@@ -20,16 +20,16 @@ stdenv.mkDerivation rec {
         platforms = platforms.linux;
         maintainers = [];
         inherit version;
-        broken = true;
+        broken = false;
     };
 
     nativeBuildInputs = [ bash m4 flex bison ];
 
     buildInputs = [ fftw mpi scotch boost cgal zlib ];
 
-    #patches = [
-    #    ./fix-bash.patch
-    #];
+    patches = [
+        ./fix-bash.patch
+    ];
 
     postPatch = ''
         for f in \
@@ -71,7 +71,7 @@ stdenv.mkDerivation rec {
         export WM_PRECISION_OPTION=DP
         export WM_PROJECT=OpenFOAM
         export WM_PROJECT_DIR=$build
-        export WM_PROJECT_USER_DIR=$build/debian/tmp
+        export WM_PROJECT_USER_DIR=$build/tmp
         export WM_PROJECT_VERSION="$(bin/foamEtcFile -show-api)"
         export WM_NCOMPPROCS=$CORES
         export gperftools_install=$build/platforms/linux64Gcc
@@ -87,10 +87,10 @@ stdenv.mkDerivation rec {
     '';
 
     buildPhase = ''
-        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$build/platforms/linux64Gcc/lib/openmpi-system"
-        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$build/platforms/linux64Gcc/lib"
-        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$build/platforms/linux64Gcc/lib/dummy"
-        PATH="$PATH:$build/wmake"
+        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$build/platforms/linux64Gcc/lib/openmpi-system" \
+        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$build/platforms/linux64Gcc/lib" \
+        LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$build/platforms/linux64Gcc/lib/dummy" \
+        PATH="$PATH:$build/wmake" \
         ./Allwmake -j$CORES -q
     '';
 

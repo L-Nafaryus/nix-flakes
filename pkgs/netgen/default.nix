@@ -1,6 +1,7 @@
-{ lib, stdenv, fetchFromGitHub,
-  cmake, ninja, git,
-  zlib, tcl, tk, mpi, opencascade-occt, python3, libGL, libGLU, libXmu, metis
+{
+    lib, stdenv, fetchFromGitHub,
+    cmake, ninja, git,
+    zlib, tcl, tk, mpi, opencascade-occt, python3, libGL, libGLU, libXmu, metis
 }:
 stdenv.mkDerivation rec {
     name = "netgen";
