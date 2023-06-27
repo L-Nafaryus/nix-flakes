@@ -20,7 +20,7 @@ with python3.pkgs; buildPythonPackage rec {
         repo = "DearPyGui";
         rev = "v${version}";
         fetchSubmodules = true;
-        sha256 = "sha256-XN1RS6DN79VNAhVrVw0iqMxFz/u2dn6UtZEugjkCsDs=";
+        sha256 = "sha256-Af1jhQYT0CYNFMWihAtP6jRNYKm3XKEu3brFOPSGCnk="; #"sha256-XN1RS6DN79VNAhVrVw0iqMxFz/u2dn6UtZEugjkCsDs=";
     };
 
     cmakeFlags = [
