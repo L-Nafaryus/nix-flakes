@@ -2,9 +2,12 @@
     lib, stdenv, fetchFromGitHub,
     pkg-config, cmake, xorg, glfw, glew, libxcrypt, python3
 }:
-with python3.pkgs; buildPythonPackage rec {
-    name = "dearpygui";
+let
+    pname = "dearpygui";
     version = "1.9.1";
+in
+with python3.pkgs; buildPythonPackage rec {
+    name = "${pname}-${version}";
 
     meta = {
         maintainers = [];
@@ -13,6 +16,7 @@ with python3.pkgs; buildPythonPackage rec {
         homepage = "https://dearpygui.readthedocs.io/en/";
         platforms = lib.platforms.linux;
         inherit version;
+        broken = false;
     };
 
     src = fetchFromGitHub {
@@ -20,7 +24,7 @@ with python3.pkgs; buildPythonPackage rec {
         repo = "DearPyGui";
         rev = "v${version}";
         fetchSubmodules = true;
-        sha256 = "sha256-Af1jhQYT0CYNFMWihAtP6jRNYKm3XKEu3brFOPSGCnk="; #"sha256-XN1RS6DN79VNAhVrVw0iqMxFz/u2dn6UtZEugjkCsDs=";
+        sha256 = "sha256-Af1jhQYT0CYNFMWihAtP6jRNYKm3XKEu3brFOPSGCnk=";
     };
 
     cmakeFlags = [
