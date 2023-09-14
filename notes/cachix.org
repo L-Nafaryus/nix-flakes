@@ -1,0 +1,91 @@
+#+title: Cachix
+
+A simple collection of recommendations and commands for using [[https://app.cachix.org][Cachix]] with Nix Flakes.
+
+* Basic usage
+
+** Installation
+
+With Nix (*preferred*):
+#+begin_src sh
+nix-env -iA cachix -f https://cachix.org/api/v1/install
+#+end_src
+
+or with flakes:
+#+begin_src sh
+nix profile install --accept-flake-config nixpkgs#cachix
+#+end_src
+
+** Authenticating
+
+After creating your account and logging in create a new authentication token and set it using (*preferred*):
+#+begin_src sh
+cachix authtoken TOKENTOKEN
+#+end_src
+
+or set it with environment variable:
+#+begin_src sh
+export CACHIX_AUTH_TOKEN=TOKENTOKEN
+#+end_src
+
+** Use
+
+To use binaries just invoke (*preferred*):
+#+begin_src sh
+cachix use MYCACHE
+#+end_src
+
+or manually append public key to your ~nix.conf~:
+#+begin_src
+trusted-public-keys = ... MYCACHE.cachix.org-1:PUBLICKEYXXXXX
+#+end_src
+
+** Push
+
+- To push flake ~inputs~:
+#+begin_src sh
+nix flake archive --json \
+| jq -r '.path,(.inputs|to_entries[].value.path)' \
+| cachix push MYCACHE
+#+end_src
+
+- To push flake runtime closure of the ~default package~:
+#+begin_src sh
+nix build --json \
+| jq -r '.[].outputs | to_entries[].value' \
+| cachix push MYCACHE
+#+end_src
+
+  or ~concrete package~:
+#+begin_src sh
+nix build --json .#PACKAGE \
+| jq -r '.[].outputs | to_entries[].value' \
+| cachix push MYCACHE
+#+end_src
+
+/NOTE/: You can use ~--dry-run~ with an already built package to retrieve ~--json~ information without rebuilding it.
+
+** Signing key (optional)
+
+To generate a [[https://docs.cachix.org/getting-started#signing-key-advanced-mode][signing key]]:
+#+begin_src sh
+cachix generate-keypair MYCACHE
+#+end_src
+
+Signing key is saved locally on your computer (the only copy) and printed to stdout, make sure to make a backup.
+
+Cachix will automatically pick up the recently written signing key or if you export it via environment variable:
+#+begin_src sh
+export CACHIX_SIGNING_KEY=MYSIGNINGKEY
+#+end_src
+
+** Pin cache (optional)
+
+To [[https://docs.cachix.org/pins][pin]] a store path (i.e. assign a persistent name) you can:
+#+begin_src sh
+cachix pip MYCACHE NAME-1.0 /nix/store/xxx-NAME-1.0
+#+end_src
+
+* Further reading and sources
+
+- [[https://docs.cachix.org/][Cachix documentation]]

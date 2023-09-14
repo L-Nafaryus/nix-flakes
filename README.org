@@ -1,1 +1,52 @@
-#+title: Readme
+#+title: nix-registry
+
+[[https://img.shields.io/badge/nix%20flake-gray.svg?logo=nixos]]
+[[https://l-nafaryus.cachix.org][https://img.shields.io/badge/cachix-l--nafaryus-orange.svg]]
+
+A simple registry for Nix Flakes.
+
+* Table of contents
+
+- [[file:README.org::*Basic usage][Basic usage]]
+- [[file:README.org::#precompiled-cache][Precompiled cache]]
+- Notes:
+  - Build
+  - [[file:notes/cachix.org][Cachix usage]]
+
+* Basic usage
+:properties:
+:custom_id: basic-usage
+:end:
+
+The flakes is supposed to be used with other flakes, right? Here we go:
+#+begin_src nix
+{
+    description = "My flake";
+
+    inputs = {
+        nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+        test.url = "github:L-Nafaryus/nix-registry/flakes/test";
+    };
+
+    outputs { self, nixpkgs, test, ... }: { ... };
+}
+#+end_src
+
+* Use of available precompiled cache
+:properties:
+:custom_id: precompiled-cache
+:end:
+
+Some precompiled caches may be available on [[https://l-nafaryus.cachix.org][Cachix]]. To use it append the following public key to your ~nix.conf~:
+#+begin_src
+trusted-public-keys = ... l-nafaryus.cachix.org-1:FLhANI6RkWtjTDm3yYITuqIBDGdIzj5WRHtOaKBtKrY=
+#+end_src
+
+or if you have [[https://docs.cachix.org/installation][cachix]] installed, use the following for automatic configuration (*preferred*):
+#+begin_src
+cachix use l-nafaryus
+#+end_src
+
+* License
+
+The current repository is under [[file:LICENSE][MIT License]].
