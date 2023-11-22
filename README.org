@@ -21,15 +21,29 @@ A simple registry for Nix Flakes.
 The flakes is supposed to be used with other flakes, right? Here we go:
 #+begin_src nix
 {
-    description = "My flake";
+    description = "Hello nix from example package.";
 
     inputs = {
         nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-        test.url = "github:L-Nafaryus/nix-registry/flakes/test";
+        example.url = "github:L-Nafaryus/nix-registry?dir=flakes/example";
     };
 
-    outputs { self, nixpkgs, test, ... }: { ... };
+    outputs = { self, nixpkgs, example, ... }:
+    let
+        systems = [ "x86_64-linux" ];
+        forAllSystems = nixpkgs.lib.genAttrs systems;
+        nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
+
+    in {
+        apps = forAllSystems (system: {
+            default = example.apps.${system}.example;
+        });
+    };
 }
+#+end_src
+
+#+begin_src shell
+nix run
 #+end_src
 
 * Use of available precompiled cache
