@@ -3,9 +3,11 @@
 [[https://img.shields.io/badge/nix%20flake-gray.svg?logo=nixos]]
 [[https://l-nafaryus.cachix.org][https://img.shields.io/badge/cachix-l--nafaryus-orange.svg]]
 
+* !Deprecated: packages are merged with [[https://github.com/L-Nafaryus/bonfire][bonfire]]
+
 A simple registry for Nix Flakes.
 
-* Table of contents
+*  Table of contents
 
 - [[file:README.org::*Basic usage][Basic usage]]
 - [[file:README.org::#precompiled-cache][Precompiled cache]]
@@ -61,6 +63,6 @@ or if you have [[https://docs.cachix.org/installation][cachix]] installed, use t
 cachix use l-nafaryus
 #+end_src
 
-* License
+* Li  cense
 
 The current repository is under [[file:LICENSE][MIT License]].
